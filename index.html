@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>DEV ENVIRONMENT</title>
+  <title>DEVELOPMENT</title>
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/collections.css">
+  <!-- Portfolio Pulse Styles -->
+  <link rel="stylesheet" href="css/pulse-styles.css">
 <!-- Required libraries for markdown processing -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -17,7 +19,7 @@
     <div class="logo-section">
       <img src="assets/logo.png" alt="DayMark Scout" class="logo">
       <div class="brand-info">
-        <h1>DEV ENVIRONMENT</h1>
+        <h1>Development</h1>
         <div class="subtitle">Powered By Vertesia</div>
       </div>
     </div>
@@ -41,32 +43,72 @@
 
   <!-- Shell -->
   <section class="shell">
-    <!-- Left: Documents -->
+    <!-- Left: Documents / Portfolio Pulse -->
     <aside class="left">
       <div class="panel-head">
         <span class="panel-title">Research Library</span>
       </div>
       <div class="left-body">
-        <!-- Search -->
-        <div class="searchBox" style="padding:0 0 8px 0">
-          <input id="docSearch" placeholder="Search documents…"/>
+        <!-- View Toggle -->
+        <div class="view-toggle">
+          <button class="view-toggle-btn active" id="viewLibrary">Library</button>
+          <button class="view-toggle-btn" id="viewPulse">Portfolio Pulse</button>
         </div>
-        
-        <!-- Collections Navigation Section -->
-        <div class="collections-section">
-          <div class="section-header">
-            <span class="section-title">Collections</span>
+
+        <!-- Library View (Default) -->
+        <div id="libraryContainer">
+          <!-- Search -->
+          <div class="searchBox" style="padding:0 0 8px 0">
+            <input id="docSearch" placeholder="Search documents…"/>
           </div>
-          <div id="collectionsList" class="collections-list">
-            <!-- Collections populated by JS -->
+          
+          <!-- Collections Navigation Section -->
+          <div class="collections-section">
+            <div class="section-header">
+              <span class="section-title">Collections</span>
+            </div>
+            <div id="collectionsList" class="collections-list">
+              <!-- Collections populated by JS -->
+            </div>
+          </div>
+          
+          <!-- Documents Viewing Section -->
+          <div class="documents-section">
+            <div class="docs-header" id="docsHeader">All Documents</div>
+            <div class="docs-scroll" id="docsPane">
+              <div class="empty">Loading your research library...</div>
+            </div>
           </div>
         </div>
-        
-        <!-- Documents Viewing Section -->
-        <div class="documents-section">
-          <div class="docs-header" id="docsHeader">All Documents</div>
-          <div class="docs-scroll" id="docsPane">
-            <div class="empty">Loading your research library...</div>
+
+        <!-- Portfolio Pulse View (Hidden by default) -->
+        <div id="pulseContainer">
+          <!-- Pulse Header -->
+          <div class="pulse-header">
+            <div class="pulse-title-row">
+              <div>
+                <span class="pulse-title">Portfolio Pulse:</span>
+                <span class="pulse-date" id="pulseDateDisplay">--</span>
+              </div>
+              <button class="pulse-generate-btn" id="pulseGenerateBtn">Generate Digest</button>
+            </div>
+            <div class="pulse-section-header">Articles For You</div>
+          </div>
+
+          <!-- Articles Container -->
+          <div class="pulse-articles-container" id="pulseArticlesContainer">
+            <div class="pulse-empty-state">
+              <p>Click "Generate Digest" to create personalized articles based on your holdings.</p>
+            </div>
+          </div>
+
+          <!-- Pulse Footer -->
+          <div class="pulse-footer">
+            <div class="pulse-status-indicator">
+              <span class="pulse-status-dot" id="pulseStatusDot"></span>
+              <span class="pulse-status-text" id="pulseStatusText">Active</span>
+            </div>
+            <span class="pulse-last-update" id="pulseLastUpdate">Last Update: --</span>
           </div>
         </div>
       </div>
@@ -282,93 +324,25 @@
       
       <!-- Chat Panel (Right Side - Hidden by Default) -->
       <div id="chatPanel" class="chat-panel">
-        <!-- Document Title (Always Visible) -->
-        <div class="chat-document-title" id="chatDocTitle">Document Name</div>
-        
-        <!-- Panel Tabs -->
         <div class="chat-panel-header">
-          <div class="panel-tabs">
-            <button class="panel-tab active" data-tab="chat">Chat with Document</button>
-            <button class="panel-tab" data-tab="followup">Follow Up Research</button>
-          </div>
+          <div class="chat-panel-title">Chat with Document</div>
+          <div class="chat-panel-subtitle" id="chatDocTitle">Document Name</div>
         </div>
         
-        <!-- Chat Tab Content -->
-        <div class="tab-content" id="chatTab">
-          <div class="chat-messages" id="chatMessages">
-            <!-- Messages populated dynamically -->
-          </div>
-          
-          <div class="chat-input-container">
-            <textarea 
-              id="chatInput" 
-              rows="2" 
-              placeholder="Ask a question about this document..."></textarea>
-            <button id="chatSend" class="chat-send-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-              </svg>
-            </button>
-          </div>
+        <div class="chat-messages" id="chatMessages">
+          <!-- Messages populated dynamically -->
         </div>
         
-        <!-- Follow Up Tab Content -->
-        <div class="tab-content hidden" id="followupTab">
-          <div class="followup-form">
-            <div class="followup-section">
-              <label class="followup-label">What would you like to explore further?</label>
-              <textarea 
-                id="followupContext" 
-                rows="5" 
-                placeholder="Reference specific quotes, sections, themes, or concepts you have regarding this document to generate additional research... "
-                maxlength="1500"></textarea>
-              <div class="char-count"><span id="followupCharCount">0</span> / 1500</div>
-            </div>
-            
-            <div class="followup-section">
-              <div class="followup-modifiers" id="followupModifiers">
-                <div class="modifier-group">
-                  <div class="modifier-label">SCOPE</div>
-                  <div class="seg" role="radiogroup" aria-label="Scope">
-                    <button type="button" class="seg-option is-active" data-group="scope" data-value="Assets">Assets</button>
-                    <button type="button" class="seg-option" data-group="scope" data-value="Sector">Sector</button>
-                    <button type="button" class="seg-option" data-group="scope" data-value="Market">Market</button>
-                  </div>
-                </div>
-                
-                <div class="modifier-group">
-                  <div class="modifier-label">OVERVIEW DETAILS</div>
-                  <div class="seg" role="radiogroup" aria-label="Detail">
-                    <button type="button" class="seg-option is-active" data-group="Overview Details" data-value="High-Level">High-Level</button>
-                    <button type="button" class="seg-option" data-group="Overview Details" data-value="In Depth">In Depth</button>
-                    <button type="button" class="seg-option" data-group="Overview Details" data-value="Comprehensive">Comprehensive</button>
-                  </div>
-                </div>
-                
-                <div class="modifier-group">
-                  <div class="modifier-label">ANALYTICAL RIGOR</div>
-                  <div class="seg" role="radiogroup" aria-label="Rigor">
-                    <button type="button" class="seg-option is-active" data-group="Analytical Rigor" data-value="Key Figures">Key Figures</button>
-                    <button type="button" class="seg-option" data-group="Analytical Rigor" data-value="Analytical">Analytical</button>
-                    <button type="button" class="seg-option" data-group="Analytical Rigor" data-value="Exhaustive Research">Exhaustive</button>
-                  </div>
-                </div>
-                
-                <div class="modifier-group">
-                  <div class="modifier-label">PERSPECTIVE</div>
-                  <div class="seg" role="radiogroup" aria-label="Perspective">
-                    <button type="button" class="seg-option is-active" data-group="perspective" data-value="Investment">Investment</button>
-                    <button type="button" class="seg-option" data-group="perspective" data-value="Educational">Educational</button>
-                    <button type="button" class="seg-option" data-group="perspective" data-value="Technical">Technical</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="followup-actions">
-              <button class="btn primary" id="generateFollowup" disabled>Generate Follow Up</button>
-            </div>
-          </div>
+        <div class="chat-input-container">
+          <textarea 
+            id="chatInput" 
+            rows="2" 
+            placeholder="Ask a question about this document..."></textarea>
+          <button id="chatSend" class="chat-send-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -383,6 +357,11 @@
   <script src="js/app.js"></script>
   <script src="js/tooltip.js"></script>
 
+  <!-- Portfolio Pulse Scripts -->
+  <script src="js/pulse-config.js"></script>
+  <script src="js/pulse-widget.js"></script>
+  <script src="js/pulse-integration.js"></script>
+
   <!-- Bottom left utilities -->
   <button id="downloadHistory" class="history-download-btn" title="Download research history">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -391,6 +370,6 @@
     Screen History
   </button>
     <!-- Bottom right build -->
-<div class="version-badge">Scout Build v1.1.5 - Last Updated: 10.30.2025</div>
+<div class="version-badge">Scout Build v3.0.0 - Last Updated: 11.12.2025</div>
 </body>
 </html>
