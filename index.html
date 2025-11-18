@@ -86,12 +86,38 @@
           <!-- Pulse Header -->
           <div class="pulse-header">
             <div class="pulse-title-row">
-              <div>
-                <span class="pulse-title">Portfolio Pulse</span>
-                <span class="pulse-date" id="pulseDateDisplay">--</span>
-              </div>
-              <button class="pulse-generate-btn" id="pulseGenerateBtn">Generate Digest</button>
-            </div>
+  <div>
+    <span class="pulse-title">Portfolio Pulse:</span>
+    <span class="pulse-date" id="pulseDateDisplay">--</span>
+  </div>
+  <div class="watchlist-controls">
+    <div class="watchlist-display" id="watchlistDisplay" style="display: none;">
+      <span class="watchlist-name" id="watchlistName" data-tooltip="">My Watchlist</span>
+      <button class="watchlist-refresh-btn" id="watchlistRefreshBtn" data-tooltip="Regenerate digest with current watchlist">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M23 4v6h-6M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+      </button>
+      <button class="watchlist-change-btn" id="watchlistChangeBtn" data-tooltip="Upload a different watchlist">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </button>
+    </div>
+    <button class="pulse-upload-btn" id="pulseUploadBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      Upload Watchlist
+    </button>
+    <input type="file" id="watchlistFileInput" style="display: none;" />
+  </div>
+</div>
             <div class="pulse-section-header">Articles For You</div>
           </div>
 
