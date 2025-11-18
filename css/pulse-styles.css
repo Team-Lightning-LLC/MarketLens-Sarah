@@ -393,3 +393,95 @@
   opacity: 0.8;
   cursor: not-allowed;
 }
+/* Watchlist Controls */
+.watchlist-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #172A3A;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pulse-upload-btn:hover {
+  background: #1e3a4f;
+}
+
+.pulse-upload-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pulse-upload-btn svg {
+  flex-shrink: 0;
+}
+
+/* Watchlist Display */
+.watchlist-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+}
+
+.watchlist-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #172A3A;
+  cursor: default;
+}
+
+.watchlist-refresh-btn,
+.watchlist-change-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6b7280;
+}
+
+.watchlist-refresh-btn:hover,
+.watchlist-change-btn:hover {
+  background: #e5e7eb;
+  color: #172A3A;
+  border-color: #9ca3af;
+}
+
+.watchlist-refresh-btn:disabled,
+.watchlist-change-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Upload progress state */
+.watchlist-controls.uploading .pulse-upload-btn,
+.watchlist-controls.uploading .watchlist-display {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.upload-status {
+  font-size: 12px;
+  color: #6b7280;
+  margin-left: 8px;
+}
